@@ -1,10 +1,11 @@
 #!/bin/bash
 
+home="/home/tools/"
 e="elasticsearch.service"
 l="logstash.service"
 k="kibana.service"
 
-for i in "/home/tools/elasticsearch/elasticsearch.deb" "/home/tools/logstash/logstash.deb" "/home/tools/kibana/kibana.deb"; do
+for i in "${home}elasticsearch/elasticsearch.deb" "${home}logstash/logstash.deb" "${home}kibana/kibana.deb"; do
 	dpkg -i $i && echo " " && echo " "
 done
 
@@ -25,10 +26,10 @@ cd /etc/logstash && sed -i 's/# config.reload.interval:/config.reload.interval:/
 # elasticsearch config
 cd /etc/elasticsearch && sed -i 's/#network.host: 192.168.0.1/network.host: 127.0.0.1/g' elasticsearch.yml && sed -i 's/#http.port:/http.port:/g' elasticsearch.yml
 
-echo "done editing config files, restarting services..."
+echo "done configuring config files, restarting services..."
 
 for k in $e $l $k; do
 	systemctl restart $k
 done
 
-echo "services restarted"
+echo "services restarted..."
